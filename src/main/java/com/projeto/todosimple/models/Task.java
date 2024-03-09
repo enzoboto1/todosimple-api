@@ -17,7 +17,6 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = Task.TABLE_NAME)
 public class Task {
-
     public static final String TABLE_NAME = "task";
 
     @Id
@@ -68,21 +67,45 @@ public class Task {
         this.description = description;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, user, description);
+    public Task id(Long id) {
+        setId(id);
+        return this;
+    }
+
+    public Task user(User user) {
+        setUser(user);
+        return this;
+    }
+
+    public Task description(String description) {
+        setDescription(description);
+        return this;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o)
+    public boolean equals(Object obj) {
+        if (obj == this)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (obj == null)
             return false;
-        Task task = (Task) o;
-        return Objects.equals(id, task.id) &&
-                Objects.equals(user, task.user) &&
-                Objects.equals(description, task.description);
+        if (!(obj instanceof Task))
+            return false;
+        Task other = (Task) obj;
+        if (this.id == null)
+            if (other.id != null)
+                return false;
+            else if (!this.id.equals(other.id))
+                return false;
+        return Objects.equals(this.id, other.id) && Objects.equals(this.user, other.user)
+                && Objects.equals(this.description, other.description);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        return result;
     }
 
 }
